@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MuteOnLocation" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="buttonStyle">@style/CustomButtonStyle</item>
+    </style>
+
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Theme.MuteOnLocation.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MuteOnLocation.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MuteOnLocation.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
