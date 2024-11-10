@@ -44,11 +44,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var notificationManager : NotificationManager
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var workTag: String
-    //debug views
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        window.statusBarColor=ContextCompat.getColor(this,R.color.background)
 
         preferencesManager = PreferencesManager(this)
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -71,8 +72,14 @@ class MainActivity : AppCompatActivity() {
         startButton.setOnClickListener {
             toggleAutoMuting(startButton)
         }
+
         savedLocation.setOnClickListener {
             val intent = Intent(this, MutedLocationListActivity::class.java)
+            startActivity(intent)
+        }
+
+        muteButton.setOnClickListener {
+            val intent = Intent(this, UnmutedNumbersActivity::class.java)
             startActivity(intent)
         }
 
@@ -98,6 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestAllPermissions() {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (!notificationManager.isNotificationPolicyAccessGranted) {
                 val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
@@ -138,10 +146,12 @@ class MainActivity : AppCompatActivity() {
             preferencesManager.autoMute.collectLatest { isAutoMuteEnabled ->
                 if (isAutoMuteEnabled==true) {
                     displayInView.text = "On"
-                    displayInView.backgroundTintList = ContextCompat.getColorStateList(applicationContext, R.color.green)
+                    displayInView.backgroundTintList = ContextCompat.getColorStateList(applicationContext, R.color.red)
+                    displayInView.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
                 } else {
                     displayInView.text = "Off"
-                    displayInView.backgroundTintList = ContextCompat.getColorStateList(applicationContext, R.color.red)
+                    displayInView.backgroundTintList = ContextCompat.getColorStateList(applicationContext, R.color.grey)
+                    displayInView.setTextColor(ContextCompat.getColor(applicationContext, R.color.black))
                 }
             }
         }
@@ -168,7 +178,6 @@ class MainActivity : AppCompatActivity() {
             setMutingState(displayInView)
         }
     }
-
 
     private suspend fun checkLocationInRange(latitude: Double, longitude: Double): Boolean {
         val savedLocations = locationDao.getAllMutedLocations()
@@ -201,16 +210,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private suspend fun updateButtonState(isInRange: Boolean, address: String, latitude: Double, longitude: Double) {
         withContext(Dispatchers.Main) {
             if (isInRange) {
                 savedAlreadyButton.text = "Unmute & Remove"
                 savedAlreadyButton.backgroundTintList = ContextCompat.getColorStateList(applicationContext, R.color.grey)
+                savedAlreadyButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.black))
                 savedAlreadyButton.setOnClickListener { unmuteAndRemoveLocation(address,latitude, longitude) }
             } else {
                 savedAlreadyButton.text = "Mute & Save"
-                savedAlreadyButton.backgroundTintList = ContextCompat.getColorStateList(applicationContext, R.color.purple_500)
+                savedAlreadyButton.backgroundTintList = ContextCompat.getColorStateList(applicationContext, R.color.red)
                 savedAlreadyButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
                 savedAlreadyButton.setOnClickListener { muteAndSaveLocation(address, latitude, longitude) }
             }

@@ -92,4 +92,11 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="contact_permission_request">Please allow contact and call permission to use this functionality.\n\nNote: We do not use Internet or any third-party services to get this functionality working, hence we never transfer your data to \'ANY SERVER\'.</string>
+    <string name="feature_unmute_contact">If Enabled, The device will be unmuted if the contact is in list on incoming call, and muted again if device is in muted location</string>
+    <string name="um_c">Unmute Number</string>
+    <string name="s_l">Muted Location</string>
+    <string name="l_text">Getting location…</string>
+    <string name="main_b">Auto Muting Off</string>
+    <string name="is_lo_mut">Please Wait! Fetching</string>
 </resources>

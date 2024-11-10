@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class MutedLocationListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_muted_location_list)
+        window.statusBarColor= ContextCompat.getColor(this,R.color.background)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val items = mutableListOf<LocationEntity>()
@@ -50,7 +52,7 @@ class MutedLocationListActivity : AppCompatActivity() {
         // Customize ActionBar
         supportActionBar?.apply {
             title = "Muted Locations"
-            setBackgroundDrawable(ColorDrawable(Color.parseColor("#00FFFFFF")))
+            setBackgroundDrawable(ColorDrawable(Color.parseColor("#ffd8d8")))
             setDisplayHomeAsUpEnabled(true)
             setTitleColor(Color.BLACK)
             setHomeAsUpIndicator(R.drawable.back_arrow)
@@ -69,12 +71,7 @@ class MutedLocationListActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 if (direction == ItemTouchHelper.LEFT) {
-                    // Delete action
                     adapter.deleteItem(position)
-                } else if (direction == ItemTouchHelper.RIGHT) {
-                    // Archive action
-                    Toast.makeText(this@MutedLocationListActivity, "Item archived", Toast.LENGTH_SHORT).show()
-                    adapter.notifyItemChanged(position) // Restore item (demo purposes)
                 }
             }
 
@@ -87,7 +84,7 @@ class MutedLocationListActivity : AppCompatActivity() {
                 actionState: Int,
                 isCurrentlyActive: Boolean
             ) {
-                val backgroundColor = if (dX > 0) Color.GREEN else Color.RED
+                val backgroundColor = Color.RED
                 val itemView = viewHolder.itemView
 
                 // Draw background color based on swipe direction
